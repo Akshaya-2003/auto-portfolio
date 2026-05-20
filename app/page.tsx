@@ -30,6 +30,17 @@ const Instagram = ({ className }: { className?: string }) => (
   </svg>
 );
 
+const Whatsapp = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+  >
+    <path d="M19.05 4.94A9.96 9.96 0 0 0 12 2C6.48 2 2 6.48 2 12c0 1.77.46 3.45 1.27 4.94L2 22l5.06-1.27c1.49.81 3.16 1.27 4.94 1.27h.01c5.52 0 10-4.48 10-10a9.96 9.96 0 0 0-2.95-7.06zM12 20.01h-.01c-1.52 0-2.98-.4-4.28-1.15l-.3-.18-3.18.8.82-3.12-.2-.32a8.02 8.02 0 0 1-1.18-4.36c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8.01zm4.33-5.32c-.2-.1-1.2-.59-1.38-.66-.18-.07-.32-.07-.45.07-.14.14-.52.66-.64.8-.12.14-.24.15-.45.04-.2-.1-.86-.31-1.63-.99-.6-.54-1-1.2-1.12-1.4-.12-.2-.02-.3.07-.4s.14-.17.2-.23c.07-.06.14-.12.2-.2.07-.07.04-.14 0-.24-.04-.1-.45-1.08-.6-1.48-.15-.4-.3-.34-.42-.34h-.4c-.12 0-.3.04-.45.2-.15.17-.52.5-1.2 1.2s-1.12 1.64-1.12 2.4c0 .75.55 1.42 1.25 2.12.7.7 2.42 3.7 5.88 5.1.8.34 1.45.54 1.95.68.5.14.95.12 1.3.07.35-.04.52-.17.7-.34.18-.17.29-.34.34-.54s.05-.37.02-.54c-.02-.17-.12-.28-.22-.38z" />
+  </svg>
+);
+
 type Work = {
   id: number;
   title: string;
@@ -78,11 +89,7 @@ export default function Home() {
 
   // Prevent background scrolling when mobile menu is open
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.classList.toggle('overflow-hidden', isMobileMenuOpen);
   }, [isMobileMenuOpen]);
 
 
@@ -92,8 +99,8 @@ export default function Home() {
 
       {/* NAVBAR */}
       <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-transparent ${scrolled ? "py-4" : "py-6"}`}>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between items-center">
-          <div className="w-[100px] lg:w-[160px] hidden md:block" /> {/* Spacer to keep navigation centered */}
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between md:justify-center items-center">
+          <div className="flex-1 md:flex-none md:w-[100px] lg:w-[160px]" /> {/* Spacer to keep navigation centered */}
 
           <nav className="hidden md:flex items-center gap-10 text-[11px] font-bold uppercase tracking-[0.2em] text-neutral-400">
             {["hero", "gallery", "studio", "roster", "pricing", "contact"].map((item) => (
@@ -103,14 +110,17 @@ export default function Home() {
               </a>
             ))}
           </nav>
-
-          {/* MOBILE MENU TOGGLE */}
-          <button
-            className="md:hidden text-white z-50 ml-auto"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
-          </button>
+          
+          {/* MOBILE MENU BUTTON */}
+          <div className="flex-1 flex justify-end md:hidden">
+            <button 
+              className="relative z-50 p-2 text-white hover:text-neutral-300 transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Menu"
+            >
+              {isMobileMenuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -164,11 +174,11 @@ export default function Home() {
             className="space-y-6"
           >
 
-            <h1 className="text-4xl sm:text-6xl md:text-7xl uppercase tracking-tight leading-[1.05] text-glow">
-  WE SHAPE <br />
-  AUTOMOTIVE <br />
-  ART.
-</h1>
+            <h1 className="!text-5xl sm:!text-6xl md:!text-7xl uppercase tracking-tight leading-[1.05] text-glow">
+              <span className="block">WE SHAPE</span>
+              <span className="block">AUTOMOTIVE</span>
+              <span className="block">ART.</span>
+            </h1>
           </motion.div>
 
           <motion.div
@@ -501,15 +511,15 @@ export default function Home() {
                     <span className="font-medium tracking-wide break-all text-xs md:text-sm">akshayakrishna.p03@gmail.com</span>
                   </a>
                   <a href="mailto:nidhvfx@gmail.com" className="flex items-center gap-4 hover:text-white transition-colors group/link bg-black/40 border border-white/5 rounded-2xl p-2 pr-6 hover:border-white/20">
-                    <div className="p-4 bg-neutral-900 rounded-xl group-hover/link:bg-white group-hover/link:text-black transition-colors flex items-center justify-center shrink-0"><Mail className="w-4 h-4" /></div>
+                    <div className="p-4 bg-neutral-900 rounded-xl group-hover/link:bg-white group-hover/link:text-black transition-colors flex items-center justify-center shrink-0"><Mail className="w-4 h-4"/></div>
                     <span className="font-medium tracking-wide break-all text-xs md:text-sm">nidhvfx@gmail.com</span>
                   </a>
                   <a href="https://wa.me/917892691366" target="_blank" rel="noreferrer" className="flex items-center gap-4 hover:text-white transition-colors group/link bg-black/40 border border-white/5 rounded-2xl p-2 pr-6 hover:border-white/20">
-                    <div className="p-4 bg-neutral-900 rounded-xl group-hover/link:bg-white group-hover/link:text-black transition-colors flex items-center justify-center shrink-0"><img src="https://img.icons8.com/ios-glyphs/480/whatsapp.png" alt="whatsapp" className="w-4 h-4 invert group-hover/link:invert-0 transition-all" /></div>
+                    <div className="p-4 bg-neutral-900 rounded-xl group-hover/link:bg-white group-hover/link:text-black transition-colors flex items-center justify-center shrink-0"><Whatsapp className="w-4 h-4 text-white group-hover/link:text-black transition-colors" /></div>
                     <span className="font-medium tracking-wide text-xs md:text-sm">+91 78926 91366</span>
                   </a>
                   <a href="https://wa.me/918073713190" target="_blank" rel="noreferrer" className="flex items-center gap-4 hover:text-white transition-colors group/link bg-black/40 border border-white/5 rounded-2xl p-2 pr-6 hover:border-white/20">
-                    <div className="p-4 bg-neutral-900 rounded-xl group-hover/link:bg-white group-hover/link:text-black transition-colors flex items-center justify-center shrink-0"><img src="https://img.icons8.com/ios-glyphs/480/whatsapp.png" alt="whatsapp" className="w-4 h-4 invert group-hover/link:invert-0 transition-all" /></div>
+                    <div className="p-4 bg-neutral-900 rounded-xl group-hover/link:bg-white group-hover/link:text-black transition-colors flex items-center justify-center shrink-0"><Whatsapp className="w-4 h-4 text-white group-hover/link:text-black transition-colors" /></div>
                     <span className="font-medium tracking-wide text-xs md:text-sm">+91 8073 713 190</span>
                   </a>
                 </div>
