@@ -103,6 +103,14 @@ export default function Home() {
               </a>
             ))}
           </nav>
+
+          {/* MOBILE MENU TOGGLE */}
+          <button
+            className="md:hidden text-white z-50 ml-auto"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
+          </button>
         </div>
       </header>
 
@@ -156,7 +164,7 @@ export default function Home() {
             className="space-y-6"
           >
 
-            <h1 className="!text-5xl sm:!text-6xl md:!text-7xl uppercase tracking-tight leading-[1.05] text-glow">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl uppercase tracking-tight leading-[1.05] text-glow">
   WE SHAPE <br />
   AUTOMOTIVE <br />
   ART.
@@ -308,7 +316,7 @@ export default function Home() {
               <span className="w-8 h-[1px] bg-neutral-600"></span>
               The Kuber Creatives Core
             </p>
-            <h2 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter mt-2 mb-8 text-glow">
+            <h2 className="text-4xl sm:text-5xl md:text-7xl font-black uppercase italic tracking-tighter mt-2 mb-8 text-glow">
               Photography & Production.
             </h2>
             <p className="text-neutral-400 leading-relaxed text-lg mb-12 max-w-3xl">
