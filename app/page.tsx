@@ -98,7 +98,7 @@ export default function Home() {
       <div className="fixed inset-0 z-[-1] bg-noise" />
 
       {/* NAVBAR */}
-      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-transparent ${scrolled ? "py-4" : "py-6"}`}>
+      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "py-4 bg-neutral-950/60 backdrop-blur-sm" : "py-6 bg-gradient-to-b from-black/30 to-transparent"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between md:justify-center items-center">
           <div className="flex-1 md:flex-none md:w-[100px] lg:w-[160px]" /> {/* Spacer to keep navigation centered */}
 
@@ -174,7 +174,7 @@ export default function Home() {
             className="space-y-6"
           >
 
-            <h1 className="!text-5xl sm:!text-6xl md:!text-7xl uppercase tracking-tight leading-[1.05] text-glow">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl uppercase tracking-tight leading-[1.05] text-glow">
               <span className="block">WE SHAPE</span>
               <span className="block">AUTOMOTIVE</span>
               <span className="block">ART.</span>
@@ -338,8 +338,8 @@ export default function Home() {
               <div className="flex flex-col gap-2 p-6 glass-panel rounded-3xl hover:bg-white/5 transition-colors group">
                 <div className="flex items-center justify-between gap-4">
                   <div className="min-w-0">
-                    <h4 className="font-bold text-white text-sm md:text-lg uppercase tracking-wider leading-tight truncate">Akshaya Krishna P</h4>
-                    <p className="text-[10px] md:text-xs text-neutral-500 uppercase tracking-widest mt-1.5 font-bold truncate">Head of Photography</p>
+                    <h4 className="font-bold text-white text-sm md:text-lg uppercase tracking-wider leading-tight">Akshaya Krishna P</h4>
+                    <p className="text-[10px] md:text-xs text-neutral-500 uppercase tracking-widest mt-1.5 font-bold">Head of Photography</p>
                   </div>
                   <a 
                     href="https://www.instagram.com/_.lost_in_lens._?igsh=YjgwODYzd2R6ejkx" 
@@ -356,8 +356,8 @@ export default function Home() {
               <div className="flex flex-col gap-2 p-6 glass-panel rounded-3xl hover:bg-white/5 transition-colors group">
                 <div className="flex items-center justify-between gap-4">
                   <div className="min-w-0">
-                    <h4 className="font-bold text-white text-sm md:text-lg uppercase tracking-wider leading-tight truncate">Nidhish S Kumar</h4>
-                    <p className="text-[10px] md:text-xs text-neutral-500 uppercase tracking-widest mt-1.5 font-bold truncate">Head of Production</p>
+                    <h4 className="font-bold text-white text-sm md:text-lg uppercase tracking-wider leading-tight">Nidhish S Kumar</h4>
+                    <p className="text-[10px] md:text-xs text-neutral-500 uppercase tracking-widest mt-1.5 font-bold">Head of Production</p>
                   </div>
                   <a 
                     href="https://www.instagram.com/nid.vfx?igsh=MW1zNHZyMTB6bGZneA==" 
