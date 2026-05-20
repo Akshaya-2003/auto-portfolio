@@ -175,7 +175,7 @@ export default function Home() {
           >
 
             <h1 className="text-4xl sm:text-6xl md:text-7xl uppercase tracking-tight leading-[1.05] text-glow">
-              <span className="block">WE SHAPE</span>
+              <span className="block">WE ENGINEER</span>
               <span className="block">AUTOMOTIVE</span>
               <span className="block">ART.</span>
             </h1>
