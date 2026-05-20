@@ -1,6 +1,6 @@
 # Portfolio
 
-Automotive Photography and Production portfolio by **Akshaya Krishna P** and **Nidhish S Kumar**.
+Automotive Photography and Production portfolio of **Akshaya Krishna P** and **Nidhish S Kumar**.
 
 ## Tech Stack
 - Next.js (App Router, Turbopack)
