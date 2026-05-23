@@ -166,7 +166,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="relative z-20 max-w-[1400px] w-full mx-auto">
+        <div className="relative z-20 max-w-[1400px] w-full mx-auto px-6 md:px-12 pt-20 md:pt-0">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -174,7 +174,7 @@ export default function Home() {
             className="space-y-6"
           >
 
-            <h1 className="text-4xl sm:text-6xl md:text-7xl uppercase tracking-tight leading-[1.05] text-glow">
+            <h1 className="!text-4xl sm:!text-6xl md:!text-7xl uppercase tracking-tight leading-[1.05] text-glow w-full max-w-[85vw] sm:max-w-none break-normal whitespace-normal">
               <span className="block">WE SHAPE</span>
               <span className="block">AUTOMOTIVE</span>
               <span className="block">ART.</span>
