@@ -330,7 +330,7 @@ export default function Home() {
                             </g>
                           </svg>
                         </div>
-                        <span className="text-xs uppercase tracking-widest text-neutral-200">Spooling...</span>
+                        <span className="text-xs uppercase tracking-widest text-neutral-200">Framing the machine</span>
                       </div>
                     </div>
                   )}
