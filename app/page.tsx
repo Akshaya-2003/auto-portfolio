@@ -104,18 +104,27 @@ export default function Home() {
 
     let cancelled = false;
     const img = new window.Image();
+    let fallback: ReturnType<typeof setTimeout> | null = null;
     img.src = current.img;
     img.onload = () => {
       if (!cancelled) setIsImageLoading(false);
+      if (fallback) { clearTimeout(fallback); fallback = null; }
     };
     img.onerror = () => {
       if (!cancelled) setIsImageLoading(false);
+      if (fallback) { clearTimeout(fallback); fallback = null; }
     };
+
+    // Fallback: ensure spinner doesn't hang indefinitely
+    fallback = setTimeout(() => {
+      if (!cancelled) setIsImageLoading(false);
+    }, 5000);
 
     return () => {
       cancelled = true;
       img.onload = null;
       img.onerror = null;
+      if (fallback) { clearTimeout(fallback); fallback = null; }
     };
   }, [currentIndex, filteredWorks]);
 
@@ -313,24 +322,27 @@ export default function Home() {
 
                   {/* Racing wheel spinner overlay while loading */}
                   {isImageLoading && (
-                    <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/30">
-                      <div className="flex flex-col items-center gap-3">
-                        <div className="w-16 h-16 rounded-full flex items-center justify-center bg-black/60 border border-white/20">
-                          <svg className="w-10 h-10 text-white animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                            <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" className="opacity-40" />
-                            <g stroke="currentColor">
+                    <div style={{ position: 'absolute', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.32)' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+                        <div style={{ width: 64, height: 64, borderRadius: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.6)', border: '1px solid rgba(255,255,255,0.12)' }}>
+                          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9" stroke="white" strokeWidth="1.2" opacity="0.32" />
+                            <g stroke="white">
                               <path d="M12 3v4" />
                               <path d="M12 17v4" />
                               <path d="M3 12h4" />
                               <path d="M17 12h4" />
-                              <path d="M5 5l2 2" />
-                              <path d="M17 17l2 2" />
-                              <path d="M5 19l2-2" />
-                              <path d="M17 7l2-2" />
                             </g>
+                            <g>
+                              <circle cx="12" cy="12" r="6" fill="rgba(255,255,255,0.06)" />
+                              <g>
+                                <path d="M12 6v-1" stroke="white" strokeWidth="1.6" />
+                              </g>
+                            </g>
+                            <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite" />
                           </svg>
                         </div>
-                        <span className="text-xs uppercase tracking-widest text-neutral-200">Framing the machine</span>
+                        <span style={{ fontSize: 11, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.88)', textTransform: 'uppercase' }}>Framing the machine</span>
                       </div>
                     </div>
                   )}
