@@ -17,35 +17,43 @@ export async function getPortfolioImages() {
   for (const category of mainCategories) {
     const catName = category.name.replace(/-/g, " "); // Transforms 'MGBW-Garage' to 'MGBW Garage'
     const catPath = path.join(publicImagesPath, category.name);
-    const items = fs.readdirSync(catPath, { withFileTypes: true });
+    // Separate directories and files, and sort both lists using natural numeric ordering
+    const dirs = fs.readdirSync(catPath, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
 
-    for (const item of items) {
-      if (item.isDirectory()) {
-        // Parse Subcategories (e.g., Lamborghini Huracan)
-        const subCatName = item.name.replace(/-/g, " ");
-        const subCatPath = path.join(catPath, item.name);
-        const subItems = fs.readdirSync(subCatPath, { withFileTypes: true });
-        
-        for (const file of subItems) {
-          if (file.isFile() && /\.(jpg|jpeg|png|webp|gif)$/i.test(file.name)) {
-            works.push({
-              id: idCounter++,
-                  title: file.name.split('.')[0].replace(/[-_]/g, " "), // Cleans both dashes and underscores
-              category: catName,
-              subCategory: subCatName,
-                  img: `/images/${encodeURIComponent(category.name)}/${encodeURIComponent(item.name)}/${encodeURIComponent(file.name)}`,
-            });
-          }
-        }
-      } else if (item.isFile() && /\.(jpg|jpeg|png|webp|gif)$/i.test(item.name)) {
+    const filesAtCategory = fs.readdirSync(catPath, { withFileTypes: true })
+      .filter(dirent => dirent.isFile() && /\.(jpg|jpeg|png|webp|gif)$/i.test(dirent.name))
+      .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
+
+    // Process subdirectories first (subcategories)
+    for (const item of dirs) {
+      const subCatName = item.name.replace(/-/g, " ");
+      const subCatPath = path.join(catPath, item.name);
+      const subItems = fs.readdirSync(subCatPath, { withFileTypes: true })
+        .filter(dirent => dirent.isFile() && /\.(jpg|jpeg|png|webp|gif)$/i.test(dirent.name))
+        .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
+
+      for (const file of subItems) {
         works.push({
           id: idCounter++,
-          title: item.name.split('.')[0].replace(/[-_]/g, " "),
+          title: file.name.split('.')[0].replace(/[-_]/g, " "),
           category: catName,
-          subCategory: null,
-          img: `/images/${encodeURIComponent(category.name)}/${encodeURIComponent(item.name)}`,
+          subCategory: subCatName,
+          img: `/images/${encodeURIComponent(category.name)}/${encodeURIComponent(item.name)}/${encodeURIComponent(file.name)}`,
         });
       }
+    }
+
+    // Then process files directly under the category (if any)
+    for (const item of filesAtCategory) {
+      works.push({
+        id: idCounter++,
+        title: item.name.split('.')[0].replace(/[-_]/g, " "),
+        category: catName,
+        subCategory: null,
+        img: `/images/${encodeURIComponent(category.name)}/${encodeURIComponent(item.name)}`,
+      });
     }
   }
   return works;

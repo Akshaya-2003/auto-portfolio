@@ -64,6 +64,7 @@ export default function Home() {
   const [subFilter, setSubFilter] = useState("Lamborghini Huracan");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [works, setWorks] = useState<Work[]>([]);
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -86,6 +87,37 @@ export default function Home() {
   useEffect(() => {
     setCurrentIndex(0);
   }, [filter, subFilter]);
+
+  // When the current slide or filtered list changes, show the spinner until image loads
+  useEffect(() => {
+    setIsImageLoading(true);
+  }, [currentIndex, filteredWorks]);
+
+  // Robust native preloader: ensures spinner hides when the browser actually finishes loading the image
+  useEffect(() => {
+    if (filteredWorks.length === 0) return;
+    const current = filteredWorks[currentIndex];
+    if (!current) return;
+
+    // Server guard
+    if (typeof window === "undefined") return;
+
+    let cancelled = false;
+    const img = new window.Image();
+    img.src = current.img;
+    img.onload = () => {
+      if (!cancelled) setIsImageLoading(false);
+    };
+    img.onerror = () => {
+      if (!cancelled) setIsImageLoading(false);
+    };
+
+    return () => {
+      cancelled = true;
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [currentIndex, filteredWorks]);
 
   // Prevent background scrolling when mobile menu is open
   useEffect(() => {
@@ -275,7 +307,33 @@ export default function Home() {
                     sizes="(max-width: 1200px) 100vw, 1200px"
                     className="z-10 object-cover"
                     priority
+                    onLoadingComplete={() => setIsImageLoading(false)}
+                    onError={() => setIsImageLoading(false)}
                   />
+
+                  {/* Racing wheel spinner overlay while loading */}
+                  {isImageLoading && (
+                    <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/30">
+                      <div className="flex flex-col items-center gap-3">
+                        <div className="w-16 h-16 rounded-full flex items-center justify-center bg-black/60 border border-white/20">
+                          <svg className="w-10 h-10 text-white animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" className="opacity-40" />
+                            <g stroke="currentColor">
+                              <path d="M12 3v4" />
+                              <path d="M12 17v4" />
+                              <path d="M3 12h4" />
+                              <path d="M17 12h4" />
+                              <path d="M5 5l2 2" />
+                              <path d="M17 17l2 2" />
+                              <path d="M5 19l2-2" />
+                              <path d="M17 7l2-2" />
+                            </g>
+                          </svg>
+                        </div>
+                        <span className="text-xs uppercase tracking-widest text-neutral-200">Spooling...</span>
+                      </div>
+                    </div>
+                  )}
                 </motion.div>
               </AnimatePresence>
 
