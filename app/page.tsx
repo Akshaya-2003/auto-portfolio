@@ -111,6 +111,9 @@ export default function Home() {
             ))}
           </nav>
           
+          {/* Right spacer to mirror left and perfectly center nav on md+ */}
+          <div className="hidden md:block md:flex-none md:w-[100px] lg:w-[160px]" />
+
           {/* MOBILE MENU BUTTON */}
           <div className="flex-1 flex justify-end md:hidden">
             <button 
